@@ -1,15 +1,17 @@
-import Category from './components/Category';
-import Item from './components/Item';
+import { CssBaseline } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Dashboard from './components/Dashboard/Dashboard';
 
 
 function App() {
   
+  const mdTheme = createTheme();
 
   return (
-    <>
-      <Category />
-      <Item />
-    </>
+    <ThemeProvider theme={mdTheme}>
+      <CssBaseline />
+      <Dashboard />
+    </ThemeProvider>
   )
 }
 
