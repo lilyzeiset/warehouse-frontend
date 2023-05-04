@@ -6,6 +6,7 @@ import TitleBar from './TitleBar';
 import Content from './Content';
 import Category from '../Category';
 import Item from '../Item';
+import Warehouse from '../Warehouse';
 
 const drawerWidth = 240;
 
@@ -17,6 +18,7 @@ export default function Dashboard() {
       <Content>
         <Category />
         <Item />
+        <Warehouse />
       </Content>
     </Box>
   );

@@ -6,12 +6,27 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
+import CategoryIcon from '@mui/icons-material/Category';
+import StarIcon from '@mui/icons-material/Star';
+import HomeIcon from '@mui/icons-material/Home';
+
+import { useFindAllWarehousesQuery } from '../../api/warehouseApi';
+import { useFindAllCategoriesQuery } from '../../api/categoryApi';
 
 export default function Sidebar(props) {
 
   const drawerWidth = props.drawerWidth;
+
+  const {
+    data: allWarehouses, 
+    refetch: refetchAllWarehouses
+  } = useFindAllWarehousesQuery();
+
+  const {
+    data: allCategories, 
+    refetch: refetchAllCategories
+  } = useFindAllCategoriesQuery();
 
   return (
     <Drawer
@@ -26,29 +41,55 @@ export default function Sidebar(props) {
       variant="permanent"
       anchor="left"
     >
-      <Toolbar />
+      <Toolbar>
+      <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary='Home' />
+          </ListItemButton>
+        </ListItem>
+      </Toolbar>
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        <ListItem>
+          Warehouses
+        </ListItem>
+        {allWarehouses?.map((warehouse) => (
+          <ListItem key={warehouse.id} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <WarehouseIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={warehouse.name} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        <ListItem>
+            Items
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <StarIcon />
+            </ListItemIcon>
+            <ListItemText primary='All Items' />
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+            By Category
+        </ListItem>
+        {allCategories?.map((category) => (
+          <ListItem key={category.id} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <CategoryIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={category.name} />
             </ListItemButton>
           </ListItem>
         ))}
