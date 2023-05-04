@@ -24,7 +24,7 @@ a:hover {
 }
 
 body {
-  margin: 0;
+  margin: 10px;
   display: flex;
   place-items: center;
   min-width: 320px;
@@ -67,3 +67,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
