@@ -21,7 +21,7 @@ export const itemApi = createApi({
             query: (item) => {return {
                 method: 'PUT',
                 url: `/${item.id}`,
-                body: store
+                body: item
             }}
         }),
         deleteItem: builder.mutation({

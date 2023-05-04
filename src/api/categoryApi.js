@@ -21,7 +21,7 @@ export const categoryApi = createApi({
             query: (category) => {return {
                 method: 'PUT',
                 url: `/${category.id}`,
-                body: store
+                body: category
             }}
         }),
         deleteCategory: builder.mutation({
