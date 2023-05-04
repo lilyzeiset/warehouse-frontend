@@ -11,8 +11,11 @@ import CategoryIcon from '@mui/icons-material/Category';
 import StarIcon from '@mui/icons-material/Star';
 import HomeIcon from '@mui/icons-material/Home';
 
+import { useNavigate, useLocation } from 'react-router-dom';
+
 import { useFindAllWarehousesQuery } from '../../api/warehouseApi';
 import { useFindAllCategoriesQuery } from '../../api/categoryApi';
+import { useEffect } from 'react';
 
 export default function Sidebar(props) {
 
@@ -27,6 +30,16 @@ export default function Sidebar(props) {
     data: allCategories, 
     refetch: refetchAllCategories
   } = useFindAllCategoriesQuery();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  //refetch data when location.state.refetch is changed
+  useEffect(() => {
+    refetchAllWarehouses();
+    refetchAllCategories();
+    // location.state.refetch = false;
+  }, [location.state?.refetch]);
 
   return (
     <Drawer
@@ -43,7 +56,7 @@ export default function Sidebar(props) {
     >
       <Toolbar>
       <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => navigate('/', {state: {...location.state}})}>
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
@@ -58,7 +71,7 @@ export default function Sidebar(props) {
         </ListItem>
         {allWarehouses?.map((warehouse) => (
           <ListItem key={warehouse.id} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate('/warehouse/', {state: {warehouseId: warehouse.id}})}>
               <ListItemIcon>
                 <WarehouseIcon />
               </ListItemIcon>

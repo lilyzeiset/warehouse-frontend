@@ -1,6 +1,7 @@
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Dashboard from './components/Dashboard/Dashboard';
+import { BrowserRouter } from 'react-router-dom';
 
 
 function App() {
@@ -9,8 +10,10 @@ function App() {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <CssBaseline />
-      <Dashboard />
+      <BrowserRouter>
+        <CssBaseline />
+        <Dashboard />
+      </BrowserRouter>
     </ThemeProvider>
   )
 }
