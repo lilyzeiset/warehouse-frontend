@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 import {
   useFindWarehouseByIdQuery,
   useUpdateWarehouseMutation,
   useDeleteWarehouseMutation
 } from '../../api/warehouseApi';
-import { Button } from '@mui/material';
 
 export default function Warehouse() {
 
