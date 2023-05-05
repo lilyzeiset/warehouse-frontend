@@ -29,6 +29,9 @@ export const warehouseApi = createApi({
                 method: 'DELETE',
                 url: `/${id}`,
             }}
+        }),
+        getWarehouseCapacity: builder.query({
+            query: (id) => `/${id}/capacity`
         })
     }}
 })
@@ -38,5 +41,6 @@ export const {
     useFindWarehouseByIdQuery,
     useCreateWarehouseMutation,
     useUpdateWarehouseMutation,
-    useDeleteWarehouseMutation
+    useDeleteWarehouseMutation,
+    useGetWarehouseCapacityQuery
 } = warehouseApi;

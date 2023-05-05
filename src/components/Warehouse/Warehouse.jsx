@@ -5,7 +5,8 @@ import { Button } from '@mui/material';
 import {
   useFindWarehouseByIdQuery,
   useUpdateWarehouseMutation,
-  useDeleteWarehouseMutation
+  useDeleteWarehouseMutation,
+  useGetWarehouseCapacityQuery
 } from '../../api/warehouseApi';
 
 export default function Warehouse() {
@@ -16,8 +17,12 @@ export default function Warehouse() {
   const location = useLocation();
   const {
     data: thisWarehouse,
-    refetch
+    refetch: refetchWarehouse
   } = useFindWarehouseByIdQuery(location.state.warehouseId);
+  const {
+    data: currentCapacity,
+    refetch: refetchCurrentCapacity
+  } = useGetWarehouseCapacityQuery(location.state.warehouseId)
   const [updateWarehouse] = useUpdateWarehouseMutation();
   const [deleteWarehouse] = useDeleteWarehouseMutation();
   
@@ -34,7 +39,9 @@ export default function Warehouse() {
     })
     .unwrap()
     .then(() =>{
-      navigate('/warehouse', {state: {...location.state, refetch: new Date()}})
+      setIsEdit(false);
+      refetchWarehouse();
+      refetchCurrentCapacity();
     });
   }
 
@@ -96,6 +103,7 @@ export default function Warehouse() {
         <h1>Warehouse {thisWarehouse?.name}</h1>
         <h3>{thisWarehouse?.description}</h3>
         <h3>{thisWarehouse?.address}</h3>
+        <h3>Capacity: {currentCapacity} / {thisWarehouse?.maxCapacity}</h3>
         
       </div>
     )
