@@ -39,7 +39,10 @@ export default function Warehouse() {
   }
 
   function handleCancelEdit() {
-
+    setInputName(thisWarehouse.name ?? '');
+    setInputDesc(thisWarehouse.description ?? '');
+    setInputAddr(thisWarehouse.address ?? '');
+    setIsEdit(false);
   }
 
   function handleDelete(warehouseId) {
