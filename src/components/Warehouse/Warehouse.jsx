@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 
@@ -8,10 +8,12 @@ import {
   useDeleteWarehouseMutation,
   useGetWarehouseCapacityQuery
 } from '../../api/warehouseApi';
+import WarehouseTable from './WarehouseTable';
+import WarehouseContext from '../../contexts/warehouseContext';
 
 export default function Warehouse() {
 
-  const [isEdit, setIsEdit] = useState(false);
+  const [isLoading, setIsloading] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,12 +25,18 @@ export default function Warehouse() {
     data: currentCapacity,
     refetch: refetchCurrentCapacity
   } = useGetWarehouseCapacityQuery(location.state.warehouseId)
+
   const [updateWarehouse] = useUpdateWarehouseMutation();
   const [deleteWarehouse] = useDeleteWarehouseMutation();
+
   
+  const [isEdit, setIsEdit] = useState(false);
+
   const [inputName, setInputName] = useState(thisWarehouse?.name);
   const [inputDesc, setInputDesc] = useState(thisWarehouse?.description);
   const [inputAddr, setInputAddr] = useState(thisWarehouse?.address);
+  
+
 
   function handleSubmitEdit(warehouse) {
     updateWarehouse({
@@ -60,6 +68,7 @@ export default function Warehouse() {
 
   if (isEdit) {
     return (
+      <WarehouseContext.Provider value={thisWarehouse ?? {}}>
       <div>
         <input value={inputName} onChange={e => setInputName(e.target.value)} />
         <input value={inputDesc} onChange={e => setInputDesc(e.target.value)} />
@@ -84,7 +93,9 @@ export default function Warehouse() {
         >
           Delete warehouse
         </Button>
+        <WarehouseTable warehouseId={thisWarehouse?.id} />
       </div>
+      </WarehouseContext.Provider>
     )
   } else {
     return (
@@ -104,7 +115,7 @@ export default function Warehouse() {
         <h3>{thisWarehouse?.description}</h3>
         <h3>{thisWarehouse?.address}</h3>
         <h3>Capacity: {currentCapacity} / {thisWarehouse?.maxCapacity}</h3>
-        
+        <WarehouseTable warehouseId={thisWarehouse?.id} />
       </div>
     )
   }

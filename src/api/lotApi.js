@@ -41,5 +41,6 @@ export const {
     useFindLotByIdQuery,
     useCreateLotMutation,
     useUpdateLotMutation,
-    useDeleteLotMutation
+    useDeleteLotMutation,
+    useFindAllLotsByWarehouseIdQuery
 } = lotApi;
