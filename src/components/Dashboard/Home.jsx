@@ -1,5 +1,9 @@
+import { Typography } from "@mui/material";
+
 export default function Home() {
   return (
-    <h1>Click create warehouse to get started!</h1>
+    <Typography variant="h4">
+      Click create warehouse to get started!
+    </Typography>
   )
 }
