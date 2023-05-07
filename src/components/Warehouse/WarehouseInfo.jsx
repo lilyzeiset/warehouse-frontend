@@ -1,14 +1,11 @@
-import { createContext, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Box } from '@mui/material';
 
 import {
-  useFindWarehouseByIdQuery,
   useUpdateWarehouseMutation,
-  useDeleteWarehouseMutation,
-  useGetWarehouseCapacityQuery
+  useDeleteWarehouseMutation
 } from '../../api/warehouseApi';
-import WarehouseTable from './WarehouseTable';
 import WarehouseContext from '../../contexts/warehouseContext';
 
 export default function Warehouse() {
