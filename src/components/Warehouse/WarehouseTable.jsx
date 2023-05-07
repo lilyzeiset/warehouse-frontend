@@ -25,6 +25,8 @@ export default function WarehouseTable() {
     refetch: refetchWarehouseItems
   } = useGetWarehouseItemsQuery(warehouseId);
 
+  const location = useLocation();
+
   /**
    * refetch data when location.state.refetch is changed
    */
@@ -35,7 +37,7 @@ export default function WarehouseTable() {
   return (
     <Stack spacing={2} maxWidth={960}>
       <Box>
-        <AddItem warehouseId={warehouseId}/>
+        <AddItem />
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

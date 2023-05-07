@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useCreateItemMutation } from "../../api/itemApi";
+import WarehouseContext from "../../contexts/warehouseContext";
 
-export default function AddItem(props){
-  const warehouseId = props.warehouseId;
+export default function AddItem(){
+  
+  const {thisWarehouse} = useContext(WarehouseContext);
+  const warehouseId = thisWarehouse.id;
 
   const [isAdding, setIsAdding] = useState(false);
 
