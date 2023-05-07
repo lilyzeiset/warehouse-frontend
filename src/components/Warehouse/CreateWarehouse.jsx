@@ -31,11 +31,11 @@ export default function CreateWarehouse() {
   }
 
   return (
-    <Stack spacing={1} sx={{maxWidth: 480}}>
-      <TextField label='Name' inputRef={nameRef} /><br />
-      <TextField label='Description' inputRef={descriptionRef} /><br />
-      <TextField label='Address' inputRef={addressRef} /><br />
-      <TextField label='Max capacity' inputRef={maxCapacityRef} type='number' /><br />
+    <Stack spacing={2} sx={{maxWidth: 480}}>
+      <TextField label='Name' inputRef={nameRef} />
+      <TextField label='Description' inputRef={descriptionRef} />
+      <TextField label='Address' inputRef={addressRef} />
+      <TextField label='Max capacity' inputRef={maxCapacityRef} type='number' />
       <Button variant='contained' onClick={handleCreateWarehouse}>Create warehouse</Button>
     </Stack>
   )
