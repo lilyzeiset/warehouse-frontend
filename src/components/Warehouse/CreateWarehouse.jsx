@@ -32,7 +32,7 @@ export default function CreateWarehouse() {
 
   return (
     <Stack spacing={2} sx={{maxWidth: 480}}>
-      <TextField label='Name' inputRef={nameRef} />
+      <TextField label='Warehouse name' inputRef={nameRef} />
       <TextField label='Description' inputRef={descriptionRef} />
       <TextField label='Address' inputRef={addressRef} />
       <TextField label='Max capacity' inputRef={maxCapacityRef} type='number' />
