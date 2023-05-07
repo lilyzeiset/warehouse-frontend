@@ -23,8 +23,6 @@ export default function AddItem(props){
       warehouseId: warehouseId
     }
 
-    console.log(location.state);
-
     createItem(newItem)
       .unwrap()
       .then(() => navigate('/warehouse', {state: {...location.state, refetch: new Date()}}));

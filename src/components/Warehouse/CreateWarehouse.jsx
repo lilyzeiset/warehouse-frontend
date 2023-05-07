@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useCreateWarehouseMutation } from "../../api/warehouseApi";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 export default function CreateWarehouse() {
 
@@ -8,17 +9,19 @@ export default function CreateWarehouse() {
 
   const nameRef = useRef(null);
   const descriptionRef = useRef(null);
+  const addressRef = useRef(null);
+  const maxCapacityRef = useRef(null);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  function handleCreateWarehouse(event) {
-    event.preventDefault();
+  function handleCreateWarehouse() {
 
     const newWarehouse = {
-        categoryId: 1,
         name: String(nameRef.current.value),
-        description: String(descriptionRef.current.value)
+        description: String(descriptionRef.current.value),
+        address: String(addressRef.current.value),
+        maxCapacity: String(maxCapacityRef.current.value)
     }
 
     createWarehouse(newWarehouse)
@@ -27,10 +30,12 @@ export default function CreateWarehouse() {
   }
 
   return (
-    <form onSubmit={handleCreateWarehouse}>
-      Name: <input ref={nameRef} />
-      Description: <input ref={descriptionRef} />
-      <button>Create warehouse</button>
+    <form>
+      Name: <input ref={nameRef} /><br />
+      Description: <input ref={descriptionRef} /><br />
+      Address: <input ref={addressRef} /><br />
+      Max capacity: <input ref={maxCapacityRef} /><br />
+      <Button variant='contained' onClick={handleCreateWarehouse}>Create warehouse</Button>
     </form>
   )
 }
