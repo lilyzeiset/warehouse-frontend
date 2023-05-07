@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Box } from '@mui/material';
+import { Button, Typography, TextField, Stack, Box } from '@mui/material';
 
 import {
   useUpdateWarehouseMutation,
@@ -8,7 +8,7 @@ import {
 } from '../../api/warehouseApi';
 import WarehouseContext from '../../contexts/warehouseContext';
 
-export default function Warehouse() {
+export default function WarehouseInfo() {
 
   const {thisWarehouse, currentCapacity} = useContext(WarehouseContext);
 
@@ -18,7 +18,6 @@ export default function Warehouse() {
   const [updateWarehouse] = useUpdateWarehouseMutation();
   const [deleteWarehouse] = useDeleteWarehouseMutation();
 
-  
   const [isEdit, setIsEdit] = useState(false);
 
   const [inputName, setInputName] = useState(thisWarehouse?.name);
@@ -26,8 +25,9 @@ export default function Warehouse() {
   const [inputAddr, setInputAddr] = useState(thisWarehouse?.address);
   const [inputMaxCap, setInputMaxCap] = useState(thisWarehouse?.maxCapacity);
   
-
-
+  /**
+   * handles submitting an edit to the warehouse
+   */
   function handleSubmitEdit(warehouse) {
     updateWarehouse({
       ...warehouse,
@@ -43,6 +43,10 @@ export default function Warehouse() {
     });
   }
 
+  /**
+   * handles cancelling an edit to the warehouse
+   * resets inputs to original values
+   */
   function handleCancelEdit() {
     setInputName(thisWarehouse.name ?? '');
     setInputDesc(thisWarehouse.description ?? '');
@@ -51,6 +55,10 @@ export default function Warehouse() {
     setIsEdit(false);
   }
 
+  /**
+   * handles deleting the warehouse
+   * sends user back to home page since current warehouse will no longer exist
+   */
   function handleDelete(warehouseId) {
     deleteWarehouse(warehouseId)
     .unwrap()
@@ -59,16 +67,12 @@ export default function Warehouse() {
 
   if (isEdit) {
     return (
-      <div>
-        Warehouse name: <input value={inputName} onChange={e => setInputName(e.target.value)} />
-        <br />
-        Description: <input value={inputDesc} onChange={e => setInputDesc(e.target.value)} />
-        <br />
-        Address: <input value={inputAddr} onChange={e => setInputAddr(e.target.value)} />
-        <br />
-        Max Capacity: <input value={inputMaxCap} onChange={e => setInputMaxCap(e.target.value)} />
-        <br />
-        <Box>
+      <Stack spacing={2} sx={{maxWidth: 480}}>
+        <TextField label='Warehouse name' value={inputName} onChange={e => setInputName(e.target.value)} />
+        <TextField label='Description' value={inputDesc} onChange={e => setInputDesc(e.target.value)} />
+        <TextField label='Address' value={inputAddr} onChange={e => setInputAddr(e.target.value)} />
+        <TextField label='Max Capacity' type='number' value={inputMaxCap} onChange={e => setInputMaxCap(e.target.value)} />
+        <Stack spacing={2} direction='row'>
           <Button 
             variant='contained' 
             onClick={() => handleSubmitEdit(thisWarehouse)}
@@ -88,28 +92,39 @@ export default function Warehouse() {
           >
             Delete warehouse
           </Button>
-        </Box>
-      </div>
+        </Stack>
+      </Stack>
     )
   } else {
     return (
-      <div>
-        <Button 
-          variant='contained' 
-          onClick={() => {
-            setInputName(thisWarehouse.name ?? '');
-            setInputDesc(thisWarehouse.description ?? '');
-            setInputAddr(thisWarehouse.address ?? '');
-            setIsEdit(true);
-          }}
-        >
-          Edit warehouse
-        </Button>
-        <h1>Warehouse {thisWarehouse?.name}</h1>
-        <h3>Description: {thisWarehouse?.description}</h3>
-        <h3>Address: {thisWarehouse?.address}</h3>
-        <h3>Capacity: {currentCapacity} / {thisWarehouse?.maxCapacity}</h3>
-      </div>
+      <Stack spacing={2} maxWidth={480}>
+        <Typography variant="h4">
+          Warehouse {thisWarehouse?.name}
+        </Typography>
+        <Typography variant="h5">
+          Description: {thisWarehouse?.description}
+        </Typography>
+        <Typography variant="h5">
+          Address: {thisWarehouse?.address}
+        </Typography>
+        <Typography variant="h5">
+          Capacity: {currentCapacity} / {thisWarehouse?.maxCapacity}
+        </Typography>
+        <Box>
+          <Button 
+            variant='contained' 
+            onClick={() => {
+              setInputName(thisWarehouse.name ?? '');
+              setInputDesc(thisWarehouse.description ?? '');
+              setInputAddr(thisWarehouse.address ?? '');
+              setInputMaxCap(thisWarehouse.maxCapacity ?? '');
+              setIsEdit(true);
+            }}
+          >
+            Edit warehouse
+          </Button>
+        </Box>
+      </Stack>
     )
   }
 }

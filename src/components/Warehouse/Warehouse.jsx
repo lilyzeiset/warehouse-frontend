@@ -1,11 +1,9 @@
-import { createContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Divider, Stack } from '@mui/material';
 
 import {
   useFindWarehouseByIdQuery,
-  useUpdateWarehouseMutation,
-  useDeleteWarehouseMutation,
   useGetWarehouseCapacityQuery
 } from '../../api/warehouseApi';
 import WarehouseTable from './WarehouseTable';
@@ -16,7 +14,6 @@ export default function Warehouse() {
 
   const [isLoading, setIsloading] = useState(true);
 
-  const navigate = useNavigate();
   const location = useLocation();
 
   const {
@@ -29,7 +26,17 @@ export default function Warehouse() {
     refetch: refetchCurrentCapacity
   } = useGetWarehouseCapacityQuery(location.state.warehouseId)
 
+  /**
+   * on component load, display nothing until data is loaded
+   */
+  useEffect(() => {
+    setIsloading(true);
+  }, []);
 
+  /**
+   * when the data needs to be refetched,
+   * display nothing until the data comes back
+   */
   useEffect(() => {
     setIsloading(true);
     refetchWarehouse().then(() => {
@@ -39,18 +46,20 @@ export default function Warehouse() {
     })
   }, [location.state?.refetch])
 
-  useEffect(() => {
-    setIsloading(true);
-  }, []);
-
+  
+  /**
+   * display nothing until data is loaded
+   */
   if (isLoading) {
     return null;
   }
   
   return (
     <WarehouseContext.Provider value={{thisWarehouse, currentCapacity}}>
-      <WarehouseInfo />
-      <WarehouseTable warehouseId={thisWarehouse.id}/>
+      <Stack spacing={2} divider={<Divider />}>
+        <WarehouseInfo />
+        <WarehouseTable />
+      </Stack>
     </WarehouseContext.Provider>
   )
 }
