@@ -1,7 +1,8 @@
-import { Button, Box } from "@mui/material";
 import { useState } from "react";
-import { useCreateItemMutation } from "../../api/itemApi";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
+
+import { useCreateItemMutation } from "../../api/itemApi";
 
 export default function AddItem(props){
   const warehouseId = props.warehouseId;
@@ -17,6 +18,10 @@ export default function AddItem(props){
   const navigate = useNavigate();
   const location = useLocation();
 
+  /**
+   * submits the new item and refetches data
+   * if max capacity reached, displays an error message for 5 secs and cancels add
+   */
   function handleAddItem() {
     const newItem = {
       name: String(inputName),
@@ -29,11 +34,14 @@ export default function AddItem(props){
       .then(() => navigate('/warehouse', {state: {...location.state, refetch: new Date()}}))
       .catch((error) => {
         setErrorMsg(error.data.message);
-        setTimeout(() => setErrorMsg(''), 5000)
+        setTimeout(() => setErrorMsg(''), 10000)
         handleCancelAdd();
       });
   }
 
+  /**
+   * cancels adding an item
+   */
   function handleCancelAdd() {
     setInputName('');
     setInputDesc('');
@@ -42,35 +50,33 @@ export default function AddItem(props){
 
   if (isAdding) {
     return (
-      <div>
-        Item name: <input value={inputName} onChange={e => setInputName(e.target.value)} />
-        <br />
-        Description: <input value={inputDesc} onChange={e => setInputDesc(e.target.value)} />
-        <br />
-        <Box>
-          <Button 
-            variant='contained' 
-            onClick={() => handleAddItem()}
-          >
-            Submit
-          </Button>
-          <Button 
-            variant='contained' 
-            onClick={() => handleCancelAdd()}
-          >
-            Cancel
-          </Button>
-        </Box>
-      </div>
+      <Stack spacing={2} direction='row'>
+        <TextField variant='standard' label='Item name' value={inputName} onChange={e => setInputName(e.target.value)} />
+        <TextField variant='standard' label='Description' value={inputDesc} onChange={e => setInputDesc(e.target.value)} />
+        <Button 
+          variant='outlined' 
+          onClick={() => handleCancelAdd()}
+        >
+          Cancel
+        </Button>
+        <Button 
+          variant='contained' 
+          onClick={() => handleAddItem()}
+        >
+          Submit
+        </Button>
+      </Stack>
     )
   }
 
   return (
-    <>
+    <Stack spacing={2} direction='row'>
       <Button variant='contained' onClick={() => setIsAdding(true)}>
         Add Item
       </Button>
-      {errorMsg}
-    </>
+      <Typography variant='body1' sx={{color: 'red'}}>
+        {errorMsg}
+      </Typography>
+    </Stack>
   )
 }
