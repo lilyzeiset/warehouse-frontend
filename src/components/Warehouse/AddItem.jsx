@@ -29,8 +29,9 @@ export default function AddItem(props){
       .then(() => navigate('/warehouse', {state: {...location.state, refetch: new Date()}}))
       .catch((error) => {
         setErrorMsg(error.data.message);
+        setTimeout(() => setErrorMsg(''), 5000)
         handleCancelAdd();
-      })
+      });
   }
 
   function handleCancelAdd() {
