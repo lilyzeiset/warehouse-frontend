@@ -31,12 +31,17 @@ export default function Warehouse() {
 
 
   useEffect(() => {
+    setIsloading(true);
     refetchWarehouse().then(() => {
       refetchCurrentCapacity().then(() => {
         setIsloading(false);
       })
     })
   }, [location.state?.refetch])
+
+  useEffect(() => {
+    setIsloading(true);
+  }, []);
 
   if (isLoading) {
     return null;
@@ -45,7 +50,7 @@ export default function Warehouse() {
   return (
     <WarehouseContext.Provider value={{thisWarehouse, currentCapacity}}>
       <WarehouseInfo />
-      {/* <WarehouseTable /> */}
+      <WarehouseTable warehouseId={thisWarehouse.id}/>
     </WarehouseContext.Provider>
   )
 }
