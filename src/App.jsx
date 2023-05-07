@@ -16,7 +16,13 @@ import Warehouse from './components/Warehouse/Warehouse';
 
 function App() {
   
-  const mdTheme = createTheme();
+  const mdTheme = createTheme({
+    palette: {
+      primary: {
+        main: '#9bbb2b'
+      }
+    }
+  });
   const drawerWidth = 240;
 
   return (

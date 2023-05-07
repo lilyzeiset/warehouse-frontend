@@ -37,7 +37,7 @@ export default function WarehouseTable(props) {
           <TableRow>
             <TableCell>Item</TableCell>
             <TableCell>Description</TableCell>
-            <TableCell align="right">Edit</TableCell>
+            <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
