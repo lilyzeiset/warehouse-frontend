@@ -74,16 +74,16 @@ export default function WarehouseInfo() {
         <TextField label='Max Capacity' type='number' value={inputMaxCap} onChange={e => setInputMaxCap(e.target.value)} />
         <Stack spacing={2} direction='row'>
           <Button 
+            variant='outlined' 
+            onClick={() => handleCancelEdit()}
+          >
+            Cancel
+          </Button>
+          <Button 
             variant='contained' 
             onClick={() => handleSubmitEdit(thisWarehouse)}
           >
             Submit
-          </Button>
-          <Button 
-            variant='contained' 
-            onClick={() => handleCancelEdit()}
-          >
-            Cancel
           </Button>
           <Button 
             color='error'
