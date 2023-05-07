@@ -1,8 +1,8 @@
 import { useState } from "react";
-
-import { TableRow, TableCell, Button } from "@mui/material";
-import { useDeleteItemMutation, useUpdateItemMutation } from "../../api/itemApi";
+import { TableRow, TableCell, Button, TextField } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { useDeleteItemMutation, useUpdateItemMutation } from "../../api/itemApi";
 
 export default function ItemRow(props) {
   const item = props.item;
@@ -17,7 +17,10 @@ export default function ItemRow(props) {
   const navigate = useNavigate();
   const location = useLocation();
 
-
+  /**
+   * handles submitting an update of the item
+   * refetches data
+   */
   function handleSubmitEdit(item) {
     updateItem({
       ...item,
@@ -31,12 +34,18 @@ export default function ItemRow(props) {
     });
   }
 
+  /**
+   * cancels an edit
+   */
   function handleCancelEdit() {
     setInputName(item.name ?? '');
     setInputDesc(item.description ?? '');
     setIsEdit(false);
   }
 
+  /**
+   * deletes an item
+   */
   function handleDelete(id) {
     deleteItem(id)
     .unwrap()
@@ -50,27 +59,17 @@ export default function ItemRow(props) {
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          <input value={inputName} onChange={e => setInputName(e.target.value)} />
+        <TextField variant='standard' value={inputName} onChange={e => setInputName(e.target.value)} />
         </TableCell>
         <TableCell>
-        <input value={inputDesc} onChange={e => setInputDesc(e.target.value)} />
+          <TextField variant='standard' value={inputDesc} onChange={e => setInputDesc(e.target.value)} />
         </TableCell>
         <TableCell align="right">
-          <Button 
-            onClick={() => handleSubmitEdit(item)}
-          >
-            Submit
-          </Button>
-          <Button 
-            onClick={() => handleCancelEdit()}
-          >
+          <Button onClick={() => handleCancelEdit()}>
             Cancel
           </Button>
-          <Button 
-            color='error'
-            onClick={() => handleDelete(item.id)}
-          >
-            Delete
+          <Button onClick={() => handleSubmitEdit(item)}>
+            Submit
           </Button>
         </TableCell>
       </TableRow>
@@ -84,9 +83,16 @@ export default function ItemRow(props) {
         <TableCell component="th" scope="row">
           {item.name}
         </TableCell>
-        <TableCell>{item.description}</TableCell>
+        <TableCell>
+          {item.description}
+        </TableCell>
         <TableCell align="right">
-          <Button onClick={() => setIsEdit(true)}>Edit</Button>
+          <Button color='error' onClick={() => handleDelete(item.id)}>
+            Delete
+          </Button>
+          <Button onClick={() => setIsEdit(true)}>
+            Edit
+          </Button>
         </TableCell>
       </TableRow>
     )
