@@ -10,11 +10,10 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 
+import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useFindAllWarehousesQuery } from '../../api/warehouseApi';
-import { useFindAllCategoriesQuery } from '../../api/categoryApi';
-import { useEffect } from 'react';
 
 export default function Sidebar(props) {
 
@@ -25,11 +24,12 @@ export default function Sidebar(props) {
     refetch: refetchAllWarehouses
   } = useFindAllWarehousesQuery();
 
-
   const navigate = useNavigate();
   const location = useLocation();
 
-  //refetch data when location.state.refetch is changed
+  /**
+   * refetch data when location.state.refetch is changed
+   */
   useEffect(() => {
     refetchAllWarehouses();
   }, [location.state?.refetch]);
@@ -47,8 +47,8 @@ export default function Sidebar(props) {
       variant="permanent"
       anchor="left"
     >
+      {/* Home button */}
       <Toolbar>
-
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigate('/', {state: {...location.state}})}>
             <ListItemIcon>
@@ -57,9 +57,11 @@ export default function Sidebar(props) {
             <ListItemText primary='Home' />
           </ListItemButton>
         </ListItem>
-
       </Toolbar>
+
       <Divider />
+
+      {/* Warehouse list */}
       <List>
         <ListItem>
           Warehouses
@@ -69,7 +71,7 @@ export default function Sidebar(props) {
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
-            <ListItemText primary='Create Warehouse' />
+            <ListItemText primary='Create warehouse' />
           </ListItemButton>
         </ListItem>
         {allWarehouses?.map((warehouse) => (
