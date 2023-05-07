@@ -34,7 +34,7 @@ export default function CreateWarehouse() {
       Name: <input ref={nameRef} /><br />
       Description: <input ref={descriptionRef} /><br />
       Address: <input ref={addressRef} /><br />
-      Max capacity: <input ref={maxCapacityRef} /><br />
+      Max capacity: <input ref={maxCapacityRef} type='number' /><br />
       <Button variant='contained' onClick={handleCreateWarehouse}>Create warehouse</Button>
     </form>
   )
