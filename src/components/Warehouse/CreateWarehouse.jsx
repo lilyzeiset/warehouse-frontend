@@ -1,7 +1,8 @@
 import { useRef } from "react";
-import { useCreateWarehouseMutation } from "../../api/warehouseApi";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
+
+import { useCreateWarehouseMutation } from "../../api/warehouseApi";
 
 export default function CreateWarehouse() {
 
@@ -30,12 +31,12 @@ export default function CreateWarehouse() {
   }
 
   return (
-    <form>
-      Name: <input ref={nameRef} /><br />
-      Description: <input ref={descriptionRef} /><br />
-      Address: <input ref={addressRef} /><br />
-      Max capacity: <input ref={maxCapacityRef} type='number' /><br />
+    <Stack spacing={1} sx={{maxWidth: 480}}>
+      <TextField label='Name' inputRef={nameRef} /><br />
+      <TextField label='Description' inputRef={descriptionRef} /><br />
+      <TextField label='Address' inputRef={addressRef} /><br />
+      <TextField label='Max capacity' inputRef={maxCapacityRef} type='number' /><br />
       <Button variant='contained' onClick={handleCreateWarehouse}>Create warehouse</Button>
-    </form>
+    </Stack>
   )
 }
