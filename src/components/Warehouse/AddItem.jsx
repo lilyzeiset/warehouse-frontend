@@ -10,6 +10,7 @@ export default function AddItem(props){
 
   const [inputName, setInputName] = useState('');
   const [inputDesc, setInputDesc] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [createItem] = useCreateItemMutation();
 
@@ -25,7 +26,11 @@ export default function AddItem(props){
 
     createItem(newItem)
       .unwrap()
-      .then(() => navigate('/warehouse', {state: {...location.state, refetch: new Date()}}));
+      .then(() => navigate('/warehouse', {state: {...location.state, refetch: new Date()}}))
+      .catch((error) => {
+        setErrorMsg(error.data.message);
+        handleCancelAdd();
+      })
   }
 
   function handleCancelAdd() {
@@ -60,8 +65,11 @@ export default function AddItem(props){
   }
 
   return (
-    <Button variant='contained' onClick={() => setIsAdding(true)}>
-      Add Item
-    </Button>
+    <>
+      <Button variant='contained' onClick={() => setIsAdding(true)}>
+        Add Item
+      </Button>
+      {errorMsg}
+    </>
   )
 }
