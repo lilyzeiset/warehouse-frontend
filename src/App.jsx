@@ -1,5 +1,4 @@
-import { CssBaseline, Toolbar } from '@mui/material';
-import Box from '@mui/material/Box';
+import { CssBaseline, Toolbar, Box } from '@mui/material';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -13,9 +12,11 @@ import Home from './components/Dashboard/Home';
 import CreateWarehouse from './components/Warehouse/CreateWarehouse';
 import Warehouse from './components/Warehouse/Warehouse';
 
-
 function App() {
   
+  /**
+   * Theme object used by Material UI
+   */
   const mdTheme = createTheme({
     palette: {
       primary: {
@@ -23,6 +24,10 @@ function App() {
       }
     }
   });
+
+  /**
+   * Width of the sidebar in pixels
+   */
   const drawerWidth = 240;
 
   return (
@@ -37,7 +42,7 @@ function App() {
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
-          <Toolbar />
+          <Toolbar /> {/* preserves space taken up by titlebar */}
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/createWarehouse' element={<CreateWarehouse />} />
