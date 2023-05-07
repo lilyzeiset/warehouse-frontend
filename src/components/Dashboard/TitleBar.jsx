@@ -11,7 +11,6 @@ export default function TitleBar (props) {
       position="fixed"
       sx={{ 
         width: `calc(100% - ${drawerWidth}px)`, 
-        // width: '100%',
         ml: `${drawerWidth}px`
       }}
     >
