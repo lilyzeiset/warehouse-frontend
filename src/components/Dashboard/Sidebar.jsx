@@ -7,8 +7,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
-import CategoryIcon from '@mui/icons-material/Category';
-import StarIcon from '@mui/icons-material/Star';
+import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -26,10 +25,6 @@ export default function Sidebar(props) {
     refetch: refetchAllWarehouses
   } = useFindAllWarehousesQuery();
 
-  const {
-    data: allCategories, 
-    refetch: refetchAllCategories
-  } = useFindAllCategoriesQuery();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,8 +32,6 @@ export default function Sidebar(props) {
   //refetch data when location.state.refetch is changed
   useEffect(() => {
     refetchAllWarehouses();
-    refetchAllCategories();
-    // location.state.refetch = false;
   }, [location.state?.refetch]);
 
   return (
@@ -55,7 +48,8 @@ export default function Sidebar(props) {
       anchor="left"
     >
       <Toolbar>
-      <ListItem disablePadding>
+
+        <ListItem disablePadding>
           <ListItemButton onClick={() => navigate('/', {state: {...location.state}})}>
             <ListItemIcon>
               <HomeIcon />
@@ -63,11 +57,20 @@ export default function Sidebar(props) {
             <ListItemText primary='Home' />
           </ListItemButton>
         </ListItem>
+
       </Toolbar>
       <Divider />
       <List>
         <ListItem>
           Warehouses
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => navigate('/createWarehouse/')}>
+            <ListItemIcon>
+              <AddIcon />
+            </ListItemIcon>
+            <ListItemText primary='Create Warehouse' />
+          </ListItemButton>
         </ListItem>
         {allWarehouses?.map((warehouse) => (
           <ListItem key={warehouse.id} disablePadding>
@@ -80,33 +83,7 @@ export default function Sidebar(props) {
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List>
-        <ListItem>
-            Items
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <StarIcon />
-            </ListItemIcon>
-            <ListItemText primary='All Items' />
-          </ListItemButton>
-        </ListItem>
-        <ListItem>
-            By Category
-        </ListItem>
-        {allCategories?.map((category) => (
-          <ListItem key={category.id} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <CategoryIcon />
-              </ListItemIcon>
-              <ListItemText primary={category.name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      
     </Drawer>
   )
 }

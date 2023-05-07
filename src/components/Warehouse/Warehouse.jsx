@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 
@@ -9,6 +9,7 @@ import {
   useGetWarehouseCapacityQuery
 } from '../../api/warehouseApi';
 import WarehouseTable from './WarehouseTable';
+import WarehouseInfo from './WarehouseInfo';
 import WarehouseContext from '../../contexts/warehouseContext';
 
 export default function Warehouse() {
@@ -17,106 +18,34 @@ export default function Warehouse() {
 
   const navigate = useNavigate();
   const location = useLocation();
+
   const {
     data: thisWarehouse,
     refetch: refetchWarehouse
   } = useFindWarehouseByIdQuery(location.state.warehouseId);
+
   const {
     data: currentCapacity,
     refetch: refetchCurrentCapacity
   } = useGetWarehouseCapacityQuery(location.state.warehouseId)
 
-  const [updateWarehouse] = useUpdateWarehouseMutation();
-  const [deleteWarehouse] = useDeleteWarehouseMutation();
 
-  
-  const [isEdit, setIsEdit] = useState(false);
-
-  const [inputName, setInputName] = useState(thisWarehouse?.name);
-  const [inputDesc, setInputDesc] = useState(thisWarehouse?.description);
-  const [inputAddr, setInputAddr] = useState(thisWarehouse?.address);
-  
-
-
-  function handleSubmitEdit(warehouse) {
-    updateWarehouse({
-      ...thisWarehouse,
-      name: inputName,
-      description: inputDesc,
-      address: inputAddr
+  useEffect(() => {
+    refetchWarehouse().then(() => {
+      refetchCurrentCapacity().then(() => {
+        setIsloading(false);
+      })
     })
-    .unwrap()
-    .then(() =>{
-      setIsEdit(false);
-      refetchWarehouse();
-      refetchCurrentCapacity();
-    });
-  }
+  }, [location.state?.refetch])
 
-  function handleCancelEdit() {
-    setInputName(thisWarehouse.name ?? '');
-    setInputDesc(thisWarehouse.description ?? '');
-    setInputAddr(thisWarehouse.address ?? '');
-    setIsEdit(false);
+  if (isLoading) {
+    return null;
   }
-
-  function handleDelete(warehouseId) {
-    deleteWarehouse(warehouseId)
-    .unwrap()
-    .then(() => navigate('/', {state: {...location.state, refetch: new Date()}}));
-  }
-
-  if (isEdit) {
-    return (
-      <WarehouseContext.Provider value={thisWarehouse ?? {}}>
-      <div>
-        <input value={inputName} onChange={e => setInputName(e.target.value)} />
-        <input value={inputDesc} onChange={e => setInputDesc(e.target.value)} />
-        <input value={inputAddr} onChange={e => setInputAddr(e.target.value)} />
-        <br />
-        <Button 
-          variant='contained' 
-          onClick={() => handleSubmitEdit(thisWarehouse)}
-        >
-          Submit
-        </Button>
-        <Button 
-          variant='contained' 
-          onClick={() => handleCancelEdit()}
-        >
-          Cancel
-        </Button>
-        <Button 
-          color='error'
-          variant='contained' 
-          onClick={() => handleDelete(thisWarehouse.id)}
-        >
-          Delete warehouse
-        </Button>
-        <WarehouseTable warehouseId={thisWarehouse?.id} />
-      </div>
-      </WarehouseContext.Provider>
-    )
-  } else {
-    return (
-      <div>
-        <Button 
-          variant='contained' 
-          onClick={() => {
-            setInputName(thisWarehouse.name ?? '');
-            setInputDesc(thisWarehouse.description ?? '');
-            setInputAddr(thisWarehouse.address ?? '');
-            setIsEdit(true);
-          }}
-        >
-          Edit warehouse
-        </Button>
-        <h1>Warehouse {thisWarehouse?.name}</h1>
-        <h3>{thisWarehouse?.description}</h3>
-        <h3>{thisWarehouse?.address}</h3>
-        <h3>Capacity: {currentCapacity} / {thisWarehouse?.maxCapacity}</h3>
-        <WarehouseTable warehouseId={thisWarehouse?.id} />
-      </div>
-    )
-  }
+  
+  return (
+    <WarehouseContext.Provider value={{thisWarehouse, currentCapacity}}>
+      <WarehouseInfo />
+      {/* <WarehouseTable /> */}
+    </WarehouseContext.Provider>
+  )
 }
