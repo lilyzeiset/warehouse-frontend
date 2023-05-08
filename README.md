@@ -1,7 +1,7 @@
 # Frontend for Warehouse Project
 
 npm packages installed:
-- @redusjs/toolkit
+- @reduxjs/toolkit
 - react-redux
 - @mui/material
 - @mui/icons-material
