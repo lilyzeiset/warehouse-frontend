@@ -5,6 +5,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useCreateItemMutation } from "../../api/itemApi";
 import WarehouseContext from "../../contexts/warehouseContext";
 
+/**
+ * Add item component
+ * handles adding an item to a warehouse
+ */
 export default function AddItem(){
   
   const {thisWarehouse} = useContext(WarehouseContext);
@@ -23,7 +27,7 @@ export default function AddItem(){
 
   /**
    * submits the new item and refetches data
-   * if max capacity reached, displays an error message for 5 secs and cancels add
+   * if max capacity reached, cancels add and displays an error message for 10 secs 
    */
   function handleAddItem() {
     const newItem = {

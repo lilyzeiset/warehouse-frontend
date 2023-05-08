@@ -8,6 +8,10 @@ import {
 } from '../../api/warehouseApi';
 import WarehouseContext from '../../contexts/warehouseContext';
 
+/**
+ * Info section for warehouse page
+ * displays warehouse info and handles editing/deleting a warehouse
+ */
 export default function WarehouseInfo() {
 
   const {thisWarehouse, currentCapacity} = useContext(WarehouseContext);

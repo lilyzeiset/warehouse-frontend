@@ -10,6 +10,10 @@ import WarehouseTable from './WarehouseTable';
 import WarehouseInfo from './WarehouseInfo';
 import WarehouseContext from '../../contexts/warehouseContext';
 
+/**
+ * Warehouse component
+ * fetches warehouse info and passes it down to subcomponents via context
+ */
 export default function Warehouse() {
 
   const [isLoading, setIsloading] = useState(true);

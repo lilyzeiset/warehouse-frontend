@@ -2,6 +2,10 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
+/**
+ * Title bar component
+ * @param props drawerWidth to be passed in as prop
+ */
 export default function TitleBar (props) {
 
   const drawerWidth = props.drawerWidth;

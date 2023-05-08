@@ -15,6 +15,10 @@ import WarehouseContext from '../../contexts/warehouseContext';
 import AddItem from './AddItem';
 import ItemRow from './ItemRow';
 
+/**
+ * Warehouse item table component
+ * fetches items in a particular warehouse
+ */
 export default function WarehouseTable() {
 
   const {thisWarehouse} = useContext(WarehouseContext);

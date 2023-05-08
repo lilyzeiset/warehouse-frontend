@@ -2,7 +2,9 @@ import {configureStore} from '@reduxjs/toolkit';
 import {itemApi} from './api/itemApi';
 import {warehouseApi} from './api/warehouseApi';
 
-//bunch of useReducers put together
+/**
+ * Redux store so we can use the APIs
+ */
 const store = configureStore({
     reducer: {
         [itemApi.reducerPath]: itemApi.reducer,

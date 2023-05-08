@@ -15,6 +15,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useFindAllWarehousesQuery } from '../../api/warehouseApi';
 
+/**
+ * Sidebar component
+ * @param props drawerWidth to be passed in as prop
+ */
 export default function Sidebar(props) {
 
   const drawerWidth = props.drawerWidth;

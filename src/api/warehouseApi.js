@@ -1,5 +1,8 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
+/**
+ * API for /warehouse endpoint
+ */
 export const warehouseApi = createApi({
     reducerPath: 'warehouseApi',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080/warehouse/'}),

@@ -4,6 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { useDeleteItemMutation, useUpdateItemMutation } from "../../api/itemApi";
 
+/**
+ * Component for a single item row in the table
+ * Handles editing/deleting an item
+ * @param props individual item data passed in as prop
+ */
 export default function ItemRow(props) {
   const item = props.item;
   const [isEdit, setIsEdit] = useState(false);

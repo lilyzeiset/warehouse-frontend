@@ -4,6 +4,9 @@ import { Button, Stack, TextField } from "@mui/material";
 
 import { useCreateWarehouseMutation } from "../../api/warehouseApi";
 
+/**
+ * Create warehouse component
+ */
 export default function CreateWarehouse() {
 
   const [createWarehouse] = useCreateWarehouseMutation();
